@@ -23,7 +23,7 @@ Follow these steps to get the Code Navigator CLI running on your local machine.
 **1. Clone the Repository**
 First, clone this repository to your local machine:
 ```bash
-git clone 
+git clone https://github.com/Player256/code-rag-graph
 cd 
 ```
 
