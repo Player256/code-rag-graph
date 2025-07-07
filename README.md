@@ -24,7 +24,7 @@ Follow these steps to get the Code Navigator CLI running on your local machine.
 First, clone this repository to your local machine:
 ```bash
 git clone https://github.com/Player256/code-rag-graph
-cd 
+cd code-rag-graph
 ```
 
 **2. Set Up a Python Environment**
