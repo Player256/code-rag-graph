@@ -1,6 +1,6 @@
 from langchain_core.messages import BaseMessage
 from langchain.agents import AgentExecutor, create_tool_calling_agent
-from model import Model
+from ..model import Model
 
 from ..utils.tools import index_repository
 from langchain_core.prompts import ChatPromptTemplate
@@ -14,7 +14,7 @@ def create_ingestion_agent_executor() -> AgentExecutor:
         ]
     )
     
-    llm = Model.get_model()
+    llm = Model().llm
     tools = [index_repository]
     agent = create_tool_calling_agent(llm,tools,prompt)
     executor = AgentExecutor(agent=agent,tools=tools,verbose=True)

@@ -1,6 +1,6 @@
 from langchain_core.messages import BaseMessage
 from langchain.agents import AgentExecutor, create_tool_calling_agent
-from model import Model
+from ..model import Model
 from langchain_core.prompts import ChatPromptTemplate
 from ..utils.tools import generate_cypher_query, execute_cypher_query
 
@@ -17,24 +17,12 @@ def create_query_agent_executor() -> AgentExecutor:
         ]
     )
 
-    
-    model = Model().llm
+    llm = Model().llm
     tools = [
         generate_cypher_query,
         execute_cypher_query,
     ]
-    agent = create_tool_calling_agent(
-        model=model,
-        tools=tools,
-        prompt=prompt,
-    )
-    
-    agent_executor = AgentExecutor(
-        agent=agent,
-        tools=tools,
-        verbose=True,
-    )
-    
+    agent = create_tool_calling_agent(llm, tools, prompt)
     executor = AgentExecutor(agent=agent,tools=tools,verbose=True)
     return executor
 

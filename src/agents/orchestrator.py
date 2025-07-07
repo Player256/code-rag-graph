@@ -4,7 +4,7 @@ from langchain_core.messages import BaseMessage
 from langchain_core.output_parsers import StrOutputParser
 from langgraph.graph import StateGraph, START, END
 
-from model import Model
+from ..model import Model
 from .ingestion import run_ingestion_agent
 from .query import run_query_agent
 
@@ -26,7 +26,7 @@ class Orchestrator:
         graph.add_node("query", run_query_agent)
 
         graph.add_edge(START, "supervisor")
-        graph.add_edge(
+        graph.add_conditional_edges(
             "supervisor",
             self.route_to_agent,
             {"ingestion": "ingestion", "query": "query", "end": END},
@@ -54,16 +54,16 @@ class Orchestrator:
                 ("user", "{input}"),
             ]
         )
-        
+
         llm = Model().llm
-        
+
         chain = prompt | llm | StrOutputParser()
         response = chain.invoke({"input": last_message.content if last_message else ""})
-        
+
         return {
-            "next" : response,
+            "next" : response.strip(),
         }
-        
+
     def route_to_agent(self,state: AgentState) -> Literal["ingestion","query","end"]:
         return state["next"]
 

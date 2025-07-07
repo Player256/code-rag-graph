@@ -6,13 +6,14 @@ from langchain_core.output_parsers import StrOutputParser
 
 from ..graph_db.connections import GraphDBConnection
 from ..graph_db.ingestion import CodebaseIngestor
+from ..model import Model
 
 NEO4J_SCHEMA = """
 Node Labels and Properties:
-- File: {path: string}
-- Module: {name: string}
-- Class: {name: string, file_path: string}
-- Function: {name: string, file_path: string, docstring: string}
+- File: {{path: string}}
+- Module: {{name: string}}
+- Class: {{name: string, file_path: string}}
+- Function: {{name: string, file_path: string, docstring: string}}
 
 Relationship Types:
 - IMPORTS: (File)-[:IMPORTS]->(Module)
@@ -62,11 +63,11 @@ def generate_cypher_query(question: str) -> str:
     """
 
     prompt = ChatPromptTemplate.from_template(cypher_generation_template)
-    llm = ChatOpenAI(model="gpt-4-turbo", temperature=0)
+    llm = Model().llm
 
     chain = prompt | llm | StrOutputParser()
 
-    return chain.invoke({"question": question, "schema": NEO4J_SCHEMA})
+    return chain.invoke({"question": question})
 
 
 @tool
