@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: code-rag
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./data/graph_databases:/data
+    environment:
+      - NEO4J_AUTH=dattatreya/dattatreya
