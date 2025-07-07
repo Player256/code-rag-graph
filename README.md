@@ -15,7 +15,6 @@ Code Navigator is a command-line tool designed to help developers understand com
 Before you begin, ensure you have the following installed:
 *   Python 3.11 or higher
 *   Docker and Docker Compose
-*   An AWS account with access to Amazon Bedrock, with your AWS credentials configured in your environment.
 
 ## Installation and Setup
 
